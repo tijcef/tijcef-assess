@@ -54,11 +54,12 @@ function ExamPage() {
 
   // ---------- Load exam ----------
   useEffect(() => {
-    const volunteer_id = localStorage.getItem("tijcef_volunteer_id");
-    if (!volunteer_id) {
-      navigate({ to: "/register" });
-      return;
-    }
+    const volunteer_id = Number(localStorage.getItem("tijcef_volunteer_id"));
+
+if (!volunteer_id) {
+  navigate({ to: "/register" });
+  return;
+}
     if (localStorage.getItem("tijcef_completed") === "1") {
       navigate({ to: "/result" });
       return;
