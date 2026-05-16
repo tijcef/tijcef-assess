@@ -82,7 +82,7 @@ export const registerVolunteer = createServerFn({ method: "POST" })
   });
 
 export const startExam = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ volunteer_id: z.string().uuid() }).parse(input))
+  .inputValidator((input) => z.object({ volunteer_id: z.coerce.number() }).parse(input))
   .handler(async ({ data }) => {
     const { data: vol } = await supabaseAdmin
       .from("volunteers")
@@ -142,11 +142,11 @@ export const submitExam = createServerFn({ method: "POST" })
   .inputValidator((input) =>
     z
       .object({
-        volunteer_id: z.string().uuid(),
+        volunteer_id: z.coerce.number(),
         // Map of question_id -> chosen ORIGINAL letter (A/B/C/D) sent by client.
         // We mapped display->original in startExam; client sends the original letter back.
         answers: z.record(
-          z.string().uuid(),
+          z.string(),
           z.enum(["A", "B", "C", "D"]).nullable(),
         ),
         total: z.number().int().min(1).max(100),
@@ -217,7 +217,7 @@ export const submitExam = createServerFn({ method: "POST" })
   });
 
 export const getResult = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ volunteer_id: z.string().uuid() }).parse(input))
+  .inputValidator((input) => z.object({ volunteer_id: z.coerce.number() }).parse(input))
   .handler(async ({ data }) => {
     const { data: vol } = await supabaseAdmin
       .from("volunteers")
