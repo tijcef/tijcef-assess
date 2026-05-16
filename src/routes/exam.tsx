@@ -22,7 +22,7 @@ type Question = {
 };
 
 type ExamData = {
-  volunteer: { id: string; full_name: string; registration_number: string };
+  volunteer: { id: number; full_name: string; registration_number: string };
   questions: Question[];
   total: number;
   seconds_per_question: number;
