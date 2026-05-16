@@ -146,7 +146,7 @@ export const submitExam = createServerFn({ method: "POST" })
         // Map of question_id -> chosen ORIGINAL letter (A/B/C/D) sent by client.
         // We mapped display->original in startExam; client sends the original letter back.
         answers: z.record(
-          z.string(),
+  z.string(),
           z.enum(["A", "B", "C", "D"]).nullable(),
         ),
         total: z.number().int().min(1).max(100),
