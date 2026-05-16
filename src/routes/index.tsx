@@ -89,7 +89,7 @@ function Landing() {
                   <Stat label="Questions" value="50" />
                   <Stat label="Per question" value="30s" />
                   <Stat label="Pass mark" value="50%" />
-                  <Stat label="Modules" value="6" />
+                  <Stat label="Cohort" value="1" />
                 </div>
                 <div className="mt-6 h-2 w-full rounded-full bg-muted overflow-hidden">
                   <div className="h-full w-2/3 bg-hero" />
