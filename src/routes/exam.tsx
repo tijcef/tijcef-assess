@@ -22,7 +22,7 @@ type Question = {
 };
 
 type ExamData = {
-  volunteer: { id: number; full_name: string; registration_number: string };
+  volunteer: { id: string; full_name: string; registration_number: string };
   questions: Question[];
   total: number;
   seconds_per_question: number;
@@ -54,12 +54,12 @@ function ExamPage() {
 
   // ---------- Load exam ----------
   useEffect(() => {
-    const volunteer_id = Number(localStorage.getItem("tijcef_volunteer_id"));
+    const volunteer_id = localStorage.getItem("tijcef_volunteer_id");
 
-if (!volunteer_id) {
-  navigate({ to: "/register" });
-  return;
-}
+    if (!volunteer_id) {
+      navigate({ to: "/register" });
+      return;
+    }
     if (localStorage.getItem("tijcef_completed") === "1") {
       navigate({ to: "/result" });
       return;
