@@ -82,7 +82,7 @@ export const registerVolunteer = createServerFn({ method: "POST" })
   });
 
 export const startExam = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ volunteer_id: z.coerce.number() }).parse(input))
+  .inputValidator((input) => z.object({ volunteer_id: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { data: vol } = await supabaseAdmin
       .from("volunteers")
