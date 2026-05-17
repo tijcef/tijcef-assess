@@ -55,9 +55,18 @@ function ExamPage() {
   // ---------- Load exam ----------
   useEffect(() => {
     const volunteer_id = localStorage.getItem("tijcef_volunteer_id");
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
     if (!volunteer_id) {
-      navigate({ to: "/register" });
+      setError("No volunteer session found. Please register first.");
+      setLoading(false);
+      return;
+    }
+    if (!UUID_RE.test(volunteer_id)) {
+      // Stale/corrupt id from an older build — clear it so /register works cleanly.
+      localStorage.removeItem("tijcef_volunteer_id");
+      setError("Your session is invalid or expired. Please register again.");
+      setLoading(false);
       return;
     }
     if (localStorage.getItem("tijcef_completed") === "1") {
@@ -82,7 +91,15 @@ function ExamPage() {
         for (const q of res.questions) initial[q.id] = null;
         setAnswers(initial);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load exam"))
+      .catch((e) => {
+        const msg = e instanceof Error ? e.message : "Failed to load exam";
+        if (/not found/i.test(msg)) {
+          localStorage.removeItem("tijcef_volunteer_id");
+          setError("Volunteer record not found. Please register again.");
+        } else {
+          setError(msg);
+        }
+      })
       .finally(() => setLoading(false));
   }, [navigate, startFn]);
 
