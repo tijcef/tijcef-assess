@@ -78,6 +78,7 @@ function ExamPage() {
       return;
     }
     if (localStorage.getItem("tijcef_completed") === "1") {
+      setLoading(false);
       navigate({ to: "/result" });
       return;
     }
