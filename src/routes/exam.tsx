@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,14 @@ import { startExam, submitExam } from "@/lib/exam.functions";
 import { Loader2, AlertTriangle } from "lucide-react";
 
 export const Route = createFileRoute("/exam")({
+  beforeLoad: () => {
+    if (
+      typeof window !== "undefined" &&
+      localStorage.getItem("tijcef_completed") === "1"
+    ) {
+      throw redirect({ to: "/result" });
+    }
+  },
   head: () => ({
     meta: [{ title: "Exam · TIJCEF Volunteer Assessment 2026" }],
   }),
@@ -70,6 +78,7 @@ function ExamPage() {
       return;
     }
     if (localStorage.getItem("tijcef_completed") === "1") {
+      setLoading(false);
       navigate({ to: "/result" });
       return;
     }
